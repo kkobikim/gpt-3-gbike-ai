@@ -23,7 +23,7 @@ async def handle_response(message) -> str:
         model="text-davinci-003",
         prompt=message,
         temperature=0.7,
-        max_tokens=2048,
+        max_tokens=4000,
         top_p=1,
         frequency_penalty=0.0,
         presence_penalty=0.0,

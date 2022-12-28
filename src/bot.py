@@ -61,7 +61,7 @@ async def send_message(message, user_message):
         else:
             await message.followup.send(response)
     except Exception as e:
-        await message.followup.send("> **Error: Something went wrong, please try again later!**")
+        await message.followup.send("> ** AI쿠봇이 잠시 재부팅중이거나 오류가 생겼습니다. 꼬비에게 문의주세요 **")
         logger.exception(f"Error while sending message: {e}")
 
 
@@ -97,7 +97,7 @@ def run_discord_bot():
         await client.tree.sync()
         logger.info(f'{client.user} is now running!')
 
-    @client.tree.command(name="chat", description="Have a chat with ChatGPT")
+    @client.tree.command(name="chat", description="AI쿠봇으로 대화하기")
     async def chat(interaction: discord.Interaction, *, message: str):
         if interaction.user == client.user:
             return
@@ -108,34 +108,34 @@ def run_discord_bot():
             f"\x1b[31m{username}\x1b[0m : '{user_message}' ({channel})")
         await send_message(interaction, user_message)
 
-    @client.tree.command(name="private", description="Toggle private access")
+    @client.tree.command(name="private", description="비공개 모드로 전환합니다.")
     async def private(interaction: discord.Interaction):
         global isPrivate
         await interaction.response.defer(ephemeral=False)
         if not isPrivate:
             isPrivate = not isPrivate
             logger.warning("\x1b[31mSwitch to private mode\x1b[0m")
-            await interaction.followup.send("> **Info: Next, the response will be sent via private message. If you want to switch back to public mode, use `/public`**")
+            await interaction.followup.send("> ** 정보: 앞으로 응답은 개인 메시지를 통해 전송됩니다. 공용 모드로 다시 전환하려면 '/public'을 사용해주세요. **")
         else:
             logger.info("You already on private mode!")
-            await interaction.followup.send("> **Warn: You already on private mode. If you want to switch to public mode, use `/public`**")
+            await interaction.followup.send("> ** 꼬비: 이미 개인 모드에 있습니다. 공개 모드로 전환하려면 '/public'을 사용해주세요. **")
 
-    @client.tree.command(name="public", description="Toggle public access")
+    @client.tree.command(name="public", description="공개 모드로 전환합니다.")
     async def public(interaction: discord.Interaction):
         global isPrivate
         await interaction.response.defer(ephemeral=False)
         if isPrivate:
             isPrivate = not isPrivate
-            await interaction.followup.send("> **Info: Next, the response will be sent to the channel directly. If you want to switch back to private mode, use `/private`**")
+            await interaction.followup.send("> ** 정보: 앞으로의 응답이 채널로 공개 전송됩니다. 다시 개인 모드로 전환하려면 '/private' 를 사용해주세요. **")
             logger.warning("\x1b[31mSwitch to public mode\x1b[0m")
         else:
-            await interaction.followup.send("> **Warn: You already on public mode. If you want to switch to private mode, use `/private`**")
+            await interaction.followup.send("> ** 경고: 이미 공개 모드에 있습니다. 비공개 모드로 전환하려면 '/private'를 사용해주세요. **")
             logger.info("You already on public mode!")
 
     @client.tree.command(name="help", description="Show help for the bot")
     async def help(interaction: discord.Interaction):
         await interaction.response.defer(ephemeral=False)
-        await interaction.followup.send(":star:**BASIC COMMANDS** \n    `/chat [message]` Chat with ChatGPT!\n    `/public` ChatGPT switch to public mode \n    For complete documentation, please visit https://github.com/Zero6992/chatGPT-discord-bot")
+        await interaction.followup.send (":star:**BASIC COMMANDS** \n    `/chat [메세지]` 로 이용이 가능합니다!\n    `/public` AI쿠봇을  공개모드로 전환 \n    기타 문의 사항은 꼬비에게 문의주세요!")
         logger.info(
             "\x1b[31mSomeone need help!\x1b[0m")
 
