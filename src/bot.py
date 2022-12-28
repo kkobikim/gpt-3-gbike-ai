@@ -139,5 +139,4 @@ def run_discord_bot():
         logger.info(
             "\x1b[31mSomeone need help!\x1b[0m")
 
-    TOKEN = config['discord_bot_token']
     client.run(TOKEN)
